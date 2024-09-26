@@ -1,0 +1,15 @@
+:host {
+  width: 100vw;
+  height: 95vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rem;
+
+  mat-icon {
+    font-size: 5rem;
+    height: 5rem;
+    width: 5rem;
+    cursor: pointer;
+  }
+}
