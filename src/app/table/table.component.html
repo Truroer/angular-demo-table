@@ -1,0 +1,139 @@
+<!-- <p>table works!</p> -->
+<div class="actions">
+  <div>
+    <button mat-raised-button [disabled]="!selection?.selected?.length" [class]="PeriodicTaste.Good" (click)="onBatchTasteClicked(PeriodicTaste.Good)">{{ PeriodicTaste.Good }}</button>&nbsp;
+    <button mat-raised-button [disabled]="!selection?.selected?.length" [class]="PeriodicTaste.Mediocre" (click)="onBatchTasteClicked(PeriodicTaste.Mediocre)">{{ PeriodicTaste.Mediocre }}</button>&nbsp;
+    <button mat-raised-button [disabled]="!selection?.selected?.length" [class]="PeriodicTaste.Bad" (click)="onBatchTasteClicked(PeriodicTaste.Bad)">{{ PeriodicTaste.Bad }}</button>
+  </div>
+
+  <mat-button-toggle-group multiple="">
+    @for (item of displayedColumns; track $index) {
+      <mat-button-toggle [checked]="isInVisibleColumns(item)" (click)="toggleVisibleColumn(item)" [value]="item">{{item}}</mat-button-toggle>
+    }
+  </mat-button-toggle-group>
+</div>
+<div>&nbsp;</div>
+<div class="mat-elevation-z8 container" tabindex="0">
+  <mat-form-field subscriptSizing="dynamic">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+  </mat-form-field>
+
+  <table
+    mat-table
+    matSort
+    [dataSource]="dataSource"
+    (matSortChange)="announceSortChange($event)"
+    cdkDropList
+    cdkDropListOrientation="horizontal"
+    (cdkDropListDropped)="tableDrop($event)"
+    >
+
+      <!-- Checkbox Column -->
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef cdkDrag cdkDragLockAxis="x" cdkDragBoundary="mat-header-row">
+        <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()"
+                      [aria-label]="checkboxLabel()">
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)"
+                      [aria-label]="checkboxLabel(row)">
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell cdkDrag cdkDragLockAxis="x" cdkDragBoundary="mat-header-row" *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+        No. ({{data.length}})
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell cdkDrag cdkDragLockAxis="x" cdkDragBoundary="mat-header-row" *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
+        Name
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <input class="display-none" #input type="text" [(ngModel)]="element.name" (blur)="onInputBlur(input, label)">
+        <span #label (click)="onLabelClick(input, label)">{{element.name}}</span>
+      </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="weight">
+      <th arrowPosition="before" mat-header-cell cdkDrag cdkDragLockAxis="x" cdkDragBoundary="mat-header-row" *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight">
+        Weight
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <input class="display-none" #input type="number" [(ngModel)]="element.weight" (blur)="onInputBlur(input, label)">
+        <span #label (click)="onLabelClick(input, label)">{{element.weight}}</span>
+      </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="symbol">
+      <th mat-header-cell cdkDrag cdkDragLockAxis="x" cdkDragBoundary="mat-header-row" *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+        Symbol
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span #label (click)="onLabelClick(input, label)">{{element.symbol}} </span>
+        <select class="display-none" #input type="text" [(ngModel)]="element.symbol" (blur)="onInputBlur(input, label)">
+          <option value="">--Symbol--</option>
+          <ng-container *ngFor="let symbolOption of periodicSymbolOptions" >
+            <option  [value]="symbolOption">{{symbolOption}}</option>
+          </ng-container>
+        </select>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="anyGood">
+      <th mat-header-cell cdkDrag cdkDragLockAxis="x" cdkDragBoundary="mat-header-row" *matHeaderCellDef mat-sort-header sortActionDescription="Sort by anyGood">
+        Any Good?
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <input class="display-none" #input type="checkbox" [(ngModel)]="element.anyGood" (blur)="onInputBlur(input, label)">
+        <span #label (click)="onLabelClick(input, label)">
+          <mat-icon class="pointer" [fontIcon]="element.anyGood ? 'check' : 'close'"></mat-icon>
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="taste">
+      <th mat-header-cell cdkDrag cdkDragLockAxis="x" cdkDragBoundary="mat-header-row" *matHeaderCellDef mat-sort-header sortActionDescription="Sort by taste">
+        Taste
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span>
+          <mat-chip disableRipple="true" (click)="onTasteClicked(element)" [class]="element.taste">{{ element.taste }}</mat-chip>
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell cdkDrag cdkDragLockAxis="x" cdkDragBoundary="mat-header-row" *matHeaderCellDef mat-sort-header sortActionDescription="Sort by date">
+        Date
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <input class="display-none" #input type="date" [(ngModel)]="element.date" (blur)="onInputBlur(input, label)">
+        <span #label (click)="onLabelClick(input, label)"> {{ toLocalDateString( element.date) }}</span>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+    <tr mat-row tabindex="999" *matRowDef="let row; columns: columnsToDisplay;"></tr>
+  </table>
+  <mat-paginator
+    pageSize="10"
+    [pageSizeOptions]="[5, 10, 20, 100]"
+    showFirstLastButtons
+    aria-label="Select page of periodic elements">
+  </mat-paginator>
+</div>
+

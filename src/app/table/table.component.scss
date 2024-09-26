@@ -1,0 +1,157 @@
+:host {
+  margin: 1rem;
+  width: 100%;
+
+  // table, mat-paginator {
+  //   background-color: white;
+  // }
+
+  // .container {
+  //   height: 400px;
+  //   overflow: auto;
+  // }
+
+  mat-paginator {
+    border-top: 1px solid grey;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  .actions  {
+    display:  flex;
+    align-items: center;
+
+    justify-content: space-between;
+  }
+
+
+
+  th {
+    justify-content: flex-end;
+  }
+
+  td {
+    span {
+          display: flex;
+      align-items: center;
+      height: 2.7rem;
+      width: fit-content;
+      min-height: 1rem;
+      min-width: 10rem;
+    }
+    input {
+      display: flex;
+      height: 2.6rem;
+      max-width: fit-content;
+      &[type="checkbox"] {
+        height: 1.3rem;
+        width: 1.3rem;
+      }
+      // &[type="text"], &[type="number"]  {
+      //   ~ span {
+      //     background-color:red;
+      //   }
+      // }
+    }
+
+
+    select {
+      height: 2.9rem;
+      // width: 3rem;
+    }
+
+  }
+
+  .mat-column-weight {
+    border-right: 1px solid grey;
+    border-left: 1px solid grey;
+    text-align: -webkit-right;
+    input {
+      text-align: -webkit-right;
+      width: 50%;
+    }
+
+    span {
+      text-align: -webkit-right;
+      min-width: 0;
+    }
+    // >* {
+    //   width: 100%;
+    // };
+  }
+  mat-chip, button {
+    &.Good {
+      background-color: rgb(177, 248, 197);
+      cursor: pointer;
+    }
+    &.Bad {
+      background-color: rgb(248, 177, 177);
+      cursor: pointer;
+    }
+    &.Mediocre {
+      background-color: rgb(248, 247, 177);
+      cursor: pointer;
+    }
+  }
+}
+
+
+// /* Animate items as they're being sorted. */
+// .cdk-drop-list-dragging .cdk-drag {
+//   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+// }
+
+// /* Animate an item that has been dropped. */
+// .cdk-drag-animating {
+//   transition: transform 300ms cubic-bezier(0, 0, 0.2, 1);
+// }
+
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  padding: 0 15px;
+  position: relative;
+}
+
+.cdk-drag-preview::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 5px;
+  right: 5px;
+  border-radius: 4px;
+  border: solid 1px rgba(0,0,0,0.4);
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  color: transparent;
+  position: relative;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drag-placeholder::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 5px;
+  right: 5px;
+  border-radius: 4px;
+  background: rgba(0,0,0,0.1);
+  border: dashed 1px rgba(0,0,0,0.4);
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.mat-header-cell {
+  cursor: pointer;
+  border: dotted 3px transparent;
+}

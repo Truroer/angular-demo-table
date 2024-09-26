@@ -1,0 +1,40 @@
+* {
+  box-sizing: border-box;
+}
+
+mat-toolbar {
+  background-color: rgb(221, 244, 255);
+  position: fixed;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--mat-app-elevation-shadow-level-8, none);
+  .home {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+  }
+}
+
+.router-outlet {
+  position: relative;
+  width: 100%;
+  top: 64px;
+  display: flex;
+  >* {
+    position: relative;
+
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}
+
