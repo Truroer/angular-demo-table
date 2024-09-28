@@ -10,7 +10,7 @@ import { Path } from '../interfaces/Path';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent {
+export default class HomeComponent {
   protected Path = Path
 
 }

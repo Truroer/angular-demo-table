@@ -70,7 +70,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss'
 })
-export class TableComponent {
+export default class TableComponent {
   @ViewChild(MatSort) public sort: MatSort | any;
   @ViewChild(MatTable) public table!: MatTable<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;

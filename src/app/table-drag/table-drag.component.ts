@@ -31,7 +31,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './table-drag.component.html',
   styleUrl: './table-drag.component.scss'
 })
-export class TableDragComponent {
+export default class TableDragComponent {
   title = 'Material Table column Resize';
   @ViewChild(MatTable, {read: ElementRef} ) private matTableRef: ElementRef;
 

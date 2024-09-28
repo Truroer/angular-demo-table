@@ -28,7 +28,7 @@ export class Car {
   templateUrl: './table-grouped.component.html',
   styleUrl: './table-grouped.component.scss'
 })
-export class TableGroupedComponent {
+export default class TableGroupedComponent {
 
   public dataSource = new MatTableDataSource<any | Group>([]);
 
